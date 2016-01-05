@@ -150,3 +150,4 @@ set undofile
 map <leader>ss :mksession! my.vim<cr> :wviminfo! my.viminfo<cr>
 " 恢复快捷键
 map <leader>rs :source my.vim<cr> :rviminfo my.viminfo<cr>
+nnoremap <silent> <C-l> :<C-u>nohlsearch<CR><C-l>
