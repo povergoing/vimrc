@@ -12,7 +12,7 @@ nmap <Leader>q :q<CR>
 " 定义快捷键保存当前窗口内容
 nmap <Leader>w :w<CR>
 " 依次遍历子窗口
-nnoremap <Leader>nw <C-W><C-W>
+nnoremap <Leader>nn <C-W><C-W>
 " 跳转至右方的窗口
 nnoremap <Leader>lw <C-W>l
 " 跳转至方的窗口
@@ -22,6 +22,11 @@ nnoremap <Leader>kw <C-W>k
 " 跳转至下方的子窗口
 nnoremap <Leader>jw <C-W>j
 cnoremap <expr> %% getcmdtype()==';' ? expand('%:h').'/' : '%%'
+if has("persistent_undo")
+    set undodir=~/.vim/undodir/
+    set undofile
+endif
+nnoremap <Leader>ul :UndotreeToggle<cr>
 set incsearch
 set ignorecase
 set nocompatible
@@ -142,12 +147,13 @@ let NERDTreeMinimalUI=1
 " 删除文件时自动删除文件对应 buffer
 let NERDTreeAutoDeleteBuffer=1
 
-" 设置环境保存项
-set sessionoptions="blank,buffers,globals,localoptions,tabpages,sesdir,folds,help,options,resize,winpos,winsize"
 " 保存 undo 历史
 set undofile
-" 保存快捷键
-map <leader>ss :mksession! my.vim<cr> :wviminfo! my.viminfo<cr>
-" 恢复快捷键
-map <leader>rs :source my.vim<cr> :rviminfo my.viminfo<cr>
 nnoremap <silent> <C-l> :<C-u>nohlsearch<CR><C-l>
+nnoremap <leader> so :OpenSession 
+nnoremap <leader> ss :SaveSession
+let g:session_directory = "~/.vim/tmp/session"  
+let g:session_autoload = "no"
+let g:session_autosave = "no"
+let g:session_command_aliases = 1
+
