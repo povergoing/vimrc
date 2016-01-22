@@ -32,7 +32,7 @@ set ignorecase
 set nocompatible
 set wildmenu
 
-set guifont=Ubuntu\ Mono\ 14
+set guifont=Ubuntu\ Mono\ 16
 
 set background=dark
 colorscheme molokai
@@ -150,8 +150,8 @@ let NERDTreeAutoDeleteBuffer=1
 " 保存 undo 历史
 set undofile
 nnoremap <silent> <C-l> :<C-u>nohlsearch<CR><C-l>
-nnoremap <leader> so :OpenSession 
-nnoremap <leader> ss :SaveSession
+nnoremap <leader>so :OpenSession 
+nnoremap <leader>ss :SaveSession
 let g:session_directory = "~/.vim/tmp/session"  
 let g:session_autoload = "no"
 let g:session_autosave = "no"
