@@ -1,52 +1,91 @@
-filetype on
-filetype plugin on
+set nocompatible              " be iMproved, required
+filetype off                  " required
 
-let mapleader=","
-noremap \ ,
-" 设置快捷键将选中文本块复制至系统剪贴板
-vnoremap <Leader>y "+y
-" 设置快捷键将系统剪贴板内容粘贴至 vim
-nmap <Leader>p "+p
-" 定义快捷键关闭当前分割窗口
-nmap <Leader>q :q<CR>
-" 定义快捷键保存当前窗口内容
-nmap <Leader>w :w<CR>
-" 依次遍历子窗口
-nnoremap <Leader>nn <C-W><C-W>
-" 跳转至右方的窗口
-nnoremap <Leader>lw <C-W>l
-" 跳转至方的窗口
-nnoremap <Leader>hw <C-W>h
-" 跳转至上方的子窗口
-nnoremap <Leader>kw <C-W>k
-" 跳转至下方的子窗口
-nnoremap <Leader>jw <C-W>j
-cnoremap <expr> %% getcmdtype()==';' ? expand('%:h').'/' : '%%'
-if has("persistent_undo")
-    set undodir=~/.vim/undodir/
-    set undofile
-endif
-nnoremap <Leader>ul :UndotreeToggle<cr>
-set incsearch
-set ignorecase
-set nocompatible
-set wildmenu
+" set the runtime path to include Vundle and initialize
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+" alternatively, pass a path where Vundle should install plugins
+"call vundle#begin('~/some/path/here')
 
-set guifont=Ubuntu\ Mono\ 16
+" let Vundle manage Vundle, required
+Plugin 'VundleVim/Vundle.vim'
 
-set background=dark
+Plugin 'tomasr/molokai'
+Plugin 'altercation/vim-colors-solarized'
+Plugin 'Lokaltog/vim-powerline' 
+Plugin 'scrooloose/nerdcommenter' 
+Plugin 'scrooloose/nerdtree' 
+Plugin 'tpope/vim-surround' 
+Plugin 'ervandew/supertab' 
+Plugin 'kien/ctrlp.vim' 
+Plugin 'vim-syntastic/syntastic' 
+Plugin 'tpope/vim-repeat' 
+
+
+" The following are examples of different formats supported.
+" Keep Plugin commands between vundle#begin/end.
+" plugin on GitHub repo
+"Plugin 'tpope/vim-fugitive'
+" plugin from http://vim-scripts.org/vim/scripts.html
+"Plugin 'L9'
+" Git plugin not hosted on GitHub
+"Plugin 'git://git.wincent.com/command-t.git'
+" git repos on your local machine (i.e. when working on your own plugin)
+"Plugin 'file:///home/gmarik/path/to/plugin'
+" The sparkup vim script is in a subdirectory of this repo called vim.
+" Pass the path to set the runtimepath properly.
+"Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}
+" Install L9 and avoid a Naming conflict if you've already installed a
+" different version somewhere else.
+"Plugin 'ascenator/L9', {'name': 'newL9'}
+
+" All of your Plugins must be added before the following line
+call vundle#end()            " required
+filetype plugin indent on    " required
+" To ignore plugin indent changes, instead use:
+"filetype plugin on
+"
+" Brief help
+" :PluginList       - lists configured plugins
+" :PluginInstall    - installs plugins; append `!` to update or just :PluginUpdate
+" :PluginSearch foo - searches for foo; append `!` to refresh local cache
+" :PluginClean      - confirms removal of unused plugins; append `!` to auto-approve removal
+"
+" see :h vundle for more details or wiki for FAQ
+" Put your non-Plugin stuff after this line
+
+
+" Javascript syntax hightlight
+syntax enable
+" 允许用指定语法高亮配色方案替换默认方案
+syntax on
+
+" Set syntax highlighting for specific file types
+autocmd BufRead,BufNewFile Appraisals set filetype=ruby
+autocmd BufRead,BufNewFile *.md set filetype=markdown
+autocmd Syntax javascript set syntax=jquery
+
+" Color scheme
 colorscheme molokai
 
-" 禁止光标闪烁
-set gcr=a:block-blinkon0
-" 禁止显示滚动条
-set guioptions-=l
-set guioptions-=L
-set guioptions-=r
-set guioptions-=R
-" 禁止显示菜单和工具条
-set guioptions-=m
+" 设置状态栏主题风格
+let g:Powerline_colorscheme='solarized256'
+
+" Set font size
+set guifont=Ubuntu\ Mono\ Regular\ 13
+
+" 让配置变更立即生效
+"autocmd BufWritePost $MYVIMRC source $MYVIMRC
+"dont display tool bars
 set guioptions-=T
+" 开启实时搜索功能
+set incsearch
+" 搜索时大小写不敏感
+set ignorecase
+" 关闭兼容模式
+set nocompatible
+" vim 自身命令行模式智能补全
+set wildmenu
 " 总是显示状态栏
 set laststatus=2
 " 显示光标当前位置
@@ -58,16 +97,8 @@ set cursorline
 set cursorcolumn
 " 高亮显示搜索结果
 set hlsearch
-
+" 禁止折行
 set nowrap
-
-let g:Powerline_colorscheme='solarized256'
-
-runtime bundle/vim-pathogen/autoload/pathogen.vim
-execute pathogen#infect()
-
-syntax enable
-syntax on
 " 自适应不同语言的智能缩进
 filetype indent on
 " 将制表符扩展为空格
@@ -78,62 +109,37 @@ set tabstop=4
 set shiftwidth=4
 " 让 vim 把连续数量的空格视为一个制表符
 set softtabstop=4
-" 随 vim 自启动
-let g:indent_guides_enable_on_vim_startup=1
-" 从第二层开始可视化显示缩进
-let g:indent_guides_start_level=2
-" 色块宽度
-let g:indent_guides_guide_size=1
-" 快捷键 i 开/关缩进可视化
-:nmap <silent> <Leader>i <Plug>IndentGuidesToggle
+" 定义快捷键的前缀，即<Leader>
 " 基于缩进或语法进行代码折叠
-set foldmethod=indent
+"set foldmethod=indent
 set foldmethod=syntax
 " 启动 vim 时关闭折叠代码
 set nofoldenable
-
-" 设置 tagbar 子窗口的位置出现在主编辑区的左边 
-let tagbar_left=1 
-" 设置显示／隐藏标签列表子窗口的快捷键。速记：tag list 
-nnoremap <Leader>tl :TagbarToggle<CR> 
-" 设置标签子窗口的宽度 
-let tagbar_width=32 
-" tagbar 子窗口中不显示冗余帮助信息 
-let g:tagbar_compact=1
-" 设置 ctags 对哪些代码元素生成标签
-let g:tagbar_type_cpp = {
-  \ 'kinds' : [
-    \ 'd:macros:1',
-    \ 'g:enums',
-    \ 't:typedefs:0:0',
-    \ 'e:enumerators:0:0',
-    \ 'n:namespaces',
-    \ 'c:classes',
-    \ 's:structs',
-    \ 'u:unions',
-    \ 'f:functions',
-    \ 'm:members:0:0',
-    \ 'v:global:0:0',
-    \ 'x:external:0:0',
-    \ 'l:local:0:0'
-   \ ],
-   \ 'sro'		: '::',
-   \ 'kind2scope' : {
-     \ 'g' : 'enum',
-     \ 'n' : 'namespace',
-     \ 'c' : 'class',
-     \ 's' : 'struct',
-     \ 'u' : 'union'
-   \ },
-   \ 'scope2kind' : {
-     \ 'enum'	  : 'g',
-     \ 'namespace' : 'n',
-     \ 'class'	 : 'c',
-     \ 'struct'	: 's',
-     \ 'union'	 : 'u'
-   \ }
-\ }
-
+let mapleader=","
+" 设置快捷键将选中文本块复制至系统剪贴板
+vnoremap <Leader>y "+y
+" 设置快捷键将系统剪贴板内容粘贴至 vim
+nmap <Leader>p "+p
+" 定义快捷键关闭当前分割窗口
+nmap <Leader>q :q<CR>
+" 定义快捷键保存当前窗口内容
+nmap <Leader>w :w<CR>
+" 定义快捷键保存所有窗口内容并退出 vim
+nmap <Leader>WQ :wa<CR>:q<CR>
+" 不做任何保存，直接退出 vim
+nmap <Leader>Q :qa!<CR>
+" 依次遍历子窗口
+nnoremap <Leader>nn <C-W><C-W>
+" 跳转至右方的窗口
+nnoremap <Leader>lw <C-W>l
+" 跳转至左方的窗口
+nnoremap <Leader>hw <C-W>h
+" 跳转至上方的子窗口
+nnoremap <Leader>kw <C-W>k
+" 跳转至下方的子窗口
+nnoremap <Leader>jw <C-W>j
+" 定义快捷键在结对符之间跳转
+nmap <Leader>M %
 " 使用 NERDTree 插件查看工程文件。设置快捷键，速记：file list
 nmap <Leader>fl :NERDTreeToggle<CR>
 " 设置NERDTree子窗口宽度
@@ -146,14 +152,8 @@ let NERDTreeShowHidden=1
 let NERDTreeMinimalUI=1
 " 删除文件时自动删除文件对应 buffer
 let NERDTreeAutoDeleteBuffer=1
-
-" 保存 undo 历史
-set undofile
+" 取消高亮
 nnoremap <silent> <C-l> :<C-u>nohlsearch<CR><C-l>
-nnoremap <leader>so :OpenSession 
-nnoremap <leader>ss :SaveSession
-let g:session_directory = "~/.vim/tmp/session"  
-let g:session_autoload = "no"
-let g:session_autosave = "no"
-let g:session_command_aliases = 1
 
+" syntastic config
+let g:syntastic_c_compiler_options="-m32 -nostdlib -nostdinc -fno-builtin -fno-stack-protector"
